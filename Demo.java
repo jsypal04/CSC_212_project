@@ -1,4 +1,12 @@
+import java.util.Random;
+
 public class Demo {
+
+    public static String getRandElem(String[] arr) {
+        Random rand = new Random();
+        System.out.println(arr[rand.nextInt(arr.length)]);
+        return "";
+    }
     
     public static String produce(String var) {
         String result = "not a variable, check string processing algoritm in production method";
@@ -41,6 +49,8 @@ public class Demo {
     }
 
     public static void main(String[] args) {
-        production("<start>");
+        //production("<start>");
+        String[] arr = {"dog", "cat", "door", "desk", "book"};
+        getRandElem(arr);
     }
 }
