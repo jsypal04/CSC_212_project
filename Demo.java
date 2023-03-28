@@ -1,56 +1,111 @@
 import java.util.Random;
+import java.util.HashMap;
 
 public class Demo {
 
+    private static HashMap<String, String[]> grammar = new HashMap<String, String[]>();
+
+    // setup grammar production rules
+    public static void setupGrammar() {
+        // nouns
+        String[] n1 = {"<person>", "<place>", "<thing>", "<idea>"};
+        String[] n2 = {"<name>", "<article><occupation>", "<article><adjective><occupation>"}; // person
+        String[] n3 = {"<general>", "<adjective><general>", "<article><specific>", "<article><adjective><specific>"}; // idea
+        String[] n4 = {"<article><thing noun>", "<article><adjective><thing noun>"}; // thing
+        String[] n5 = {"<article><place noun>", "<article><adjective><place noun>"}; // place
+        String[] n6 = {"Joe "}; // name
+        String[] n7 = {"religion ", "love ", "sacrifice "}; // general
+        String[] n8 = {"Roman Catholic Church "}; // specific
+        String[] n9 = {"doctor ", "lawyer "}; // occupation
+        String[] n10 = {"desk ", "dog ", "chair "}; // thing noun
+        String[] n11 = {"Pryz ", "hospital ", "church "}; // place noun
+        String[] n12 = {"<noun>"}; // pred nom
+        String[] n13 = {"<noun>"}; // direct object
+
+        grammar.put("<noun>", n1);
+        grammar.put("<person>", n2);
+        grammar.put("<idea>", n3);
+        grammar.put("<thing>", n4);
+        grammar.put("<place>", n5);
+        grammar.put("<name>", n6);
+        grammar.put("<general>", n7);
+        grammar.put("<specific>", n8);
+        grammar.put("<occupation>", n9);
+        grammar.put("<thing noun>", n10);
+        grammar.put("<place noun>", n11);
+        grammar.put("<pred nom>", n12);
+        grammar.put("<direct object>", n13);
+
+        // verbs
+        String[] v1 = {"<act>", "<link>"};
+        String[] v2 = {"<trans>", "<intrans>"};
+        String[] v3 = {"<trans verb><direct object>", "<adverb><trans verb><direct object>"};
+        String[] v4 = {"<intrans verb>", "<intrans verb><adverb>"};
+        String[] v5 = {"<link verb><pred nom>", "<link verb><pred adj>"};
+        String[] v6 = {"is ", "was ", "has ", "had ", "became "}; // linking verbs
+        String[] v7 = {"accepts ", "bothers ", "defines "}; // transitive verbs
+        String[] v8 = {"laughs ", "smiles ", "claps "}; // intransitive verbs
+
+        grammar.put("<verb>", v1);
+        grammar.put("<act>", v2);
+        grammar.put("<trans>", v3);
+        grammar.put("<intrans>", v4);
+        grammar.put("<link>", v5);
+        grammar.put("<link verb>", v6);
+        grammar.put("<trans verb>", v7);
+        grammar.put("<intrans verb>", v8);
+
+        // articles
+        String[] art = {"a ", "the "};
+
+        grammar.put("<article>", art);
+
+        // adjectives
+        String[] adj1 = {"brown ", "bright "};
+        String[] adj2 = {"<adjective>"}; // pred adj
+
+        grammar.put("<adjective>", adj1);
+        grammar.put("<pred adj>", adj2);
+
+        //adverbs
+        String[] adv1 = {"briliantly ", "unfortunatly "};
+
+        grammar.put("<adverb>", adv1);
+    }
+
     public static String getRandElem(String[] arr) {
         Random rand = new Random();
-        System.out.println(arr[rand.nextInt(arr.length)]);
-        return "";
-    }
-    
-    public static String produce(String var) {
-        String result = "not a variable, check string processing algoritm in production method";
-        if (var.equals("<start>")) {
-            result =  "<subject><predicate>";
-        }
-        else if (var.equals("<subject>")) {
-            result = "<noun>";
-        }
-        else if (var.equals("<predicate>")) {
-            result = "<verb><direct object>";
-        }
-        else if (var.equals("<direct object>")) {
-            result = "<noun>";
-        }
-        else if (var.equals("<noun>")) {
-            result = "dog ";
-        }
-        else if (var.equals("<verb>")) {
-            result = "runs ";
-        }
-        return result;
+        return arr[rand.nextInt(arr.length)];
     }
 
-
-    public static String production(String input) {
+    public static String produce(String input) {
+        System.out.println(input);
+        String output = "";
         while (input.contains("<") && input.contains(">")) {
             int varStart = input.indexOf("<");
             int varFinish = input.indexOf(">");
-
             String var = input.substring(varStart, varFinish + 1);
-            String newStr = produce(var);
+            input = input.substring(varFinish + 1);
 
-            input = input.replaceFirst(var, newStr);
+            String newVar = getRandElem(grammar.get(var));
+            if (!newVar.contains("<") && !newVar.contains(">")) {
+                output += newVar;
+            }
+            else {
+                input = newVar + input;
+            }
+            System.out.println(input);
+            System.out.println(output);
         }
 
-        System.out.println(input.trim());
-        
+        System.out.println(input);
+
         return "done";
     }
 
     public static void main(String[] args) {
-        //production("<start>");
-        String[] arr = {"dog", "cat", "door", "desk", "book"};
-        getRandElem(arr);
+        // run setup functions
+        setupGrammar();
+        produce("<noun><verb>");
     }
 }
