@@ -13,8 +13,8 @@ public class Demo {
         String[] n3 = {"<general>", "<adjective><general>", "<article><specific>", "<article><adjective><specific>"}; // idea
         String[] n4 = {"<article><thing noun>", "<article><adjective><thing noun>"}; // thing
         String[] n5 = {"<article><place noun>", "<article><adjective><place noun>"}; // place
-        String[] n6 = {"Joe "}; // name
-        String[] n7 = {"religion ", "love ", "sacrifice "}; // general
+        String[] n6 = {"Joe ", "Hieu Bui "}; // name
+        String[] n7 = {"religion ", "love ", "math ", "CSC 212"}; // general
         String[] n8 = {"Roman Catholic Church "}; // specific
         String[] n9 = {"doctor ", "lawyer "}; // occupation
         String[] n10 = {"desk ", "dog ", "chair "}; // thing noun
@@ -44,7 +44,7 @@ public class Demo {
         String[] v5 = {"<link verb><pred nom>", "<link verb><pred adj>"};
         String[] v6 = {"is ", "was ", "has ", "had ", "became "}; // linking verbs
         String[] v7 = {"accepts ", "bothers ", "defines "}; // transitive verbs
-        String[] v8 = {"laughs ", "smiles ", "claps "}; // intransitive verbs
+        String[] v8 = {"laughs ", "was laughing ", "smiles ", "was smiling ", "claps ", "was clapping "}; // intransitive verbs
 
         grammar.put("<verb>", v1);
         grammar.put("<act>", v2);
@@ -68,7 +68,7 @@ public class Demo {
         grammar.put("<pred adj>", adj2);
 
         //adverbs
-        String[] adv1 = {"briliantly ", "unfortunatly "};
+        String[] adv1 = {"briliantly ", "unfortunatly ", "well "};
 
         grammar.put("<adverb>", adv1);
     }
@@ -79,7 +79,6 @@ public class Demo {
     }
 
     public static String produce(String input) {
-        System.out.println(input);
         String output = "";
         while (input.contains("<") && input.contains(">")) {
             int varStart = input.indexOf("<");
@@ -94,18 +93,14 @@ public class Demo {
             else {
                 input = newVar + input;
             }
-            System.out.println(input);
-            System.out.println(output);
         }
 
-        System.out.println(input);
-
-        return "done";
+        return output;
     }
 
     public static void main(String[] args) {
         // run setup functions
         setupGrammar();
-        produce("<noun><verb>");
+        System.out.println(produce("<noun><verb>"));
     }
 }
