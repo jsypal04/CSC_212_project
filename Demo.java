@@ -112,6 +112,7 @@ public class Demo {
         JFrame frame = new JFrame();
         frame.setSize(500, 500);
         frame.setLayout(new GridLayout(2, 1));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JLabel label = new JLabel(produce("<start>"));
         label.setHorizontalAlignment(0);
