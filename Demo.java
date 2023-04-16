@@ -1,5 +1,9 @@
 import java.util.Random;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
+import javax.swing.*;
 
 public class Demo {
 
@@ -104,10 +108,23 @@ public class Demo {
     public static void main(String[] args) {
         // run setup functions
         setupGrammar();
-        
 
-        System.out.println();
-        System.out.println(produce("<start>"));
-        System.out.println();
+        JFrame frame = new JFrame();
+        frame.setSize(500, 500);
+        frame.setLayout(new GridLayout(2, 1));
+
+        JLabel label = new JLabel(produce("<start>"));
+        label.setHorizontalAlignment(0);
+
+        JButton button = new JButton("Regenerate");
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                label.setText(produce("<start>"));
+            }
+        });
+        
+        frame.add(label);
+        frame.add(button);
+        frame.setVisible(true);
     }
 }
